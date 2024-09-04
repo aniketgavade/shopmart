@@ -1,0 +1,39 @@
+<div class="container mt-3">
+   <div class="row gy-3">
+       <!-- Search Form -->
+       <form class="d-flex w-100" role="search" method="POST" action="/search/">
+           {% csrf_token %}
+           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="product_name">
+           <button class="btn btn-outline-success" type="submit">Search</button>
+       </form>
+
+       <!-- Display Messages -->
+       {% if messages %}
+           {% for message in messages %}
+               <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                   {{ message }}
+                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+               </div>
+           {% endfor %}
+       {% endif %}
+
+       <!-- Display Products -->
+       {% for product in products %}
+           <div class="col-3 h-100">
+               <div class="card" style="width: 16rem;">
+                   <!-- Ensure the image URL is correct -->
+                   <img src="http://127.0.0.1:8000/seller/media/{{ product.image }}" class="card-img-top p-5" alt="{{ product.name }}">
+                   <div class="card-body">
+                       <h5 class="card-title text-center">{{ product.name|title }}</h5>
+                       <p class="card-text">{{ product.description }}</p>
+                       <p class="card-text"> &#x20b9; {{ product.price }}</p>
+                       <div class="d-flex justify-content-between">
+                           <a href="/add-to-cart/{{ product.id }}" class="btn btn-success">Add to cart</a>
+                           <a href="#" class="btn btn-warning">View</a>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       {% endfor %}
+   </div>
+</div>
